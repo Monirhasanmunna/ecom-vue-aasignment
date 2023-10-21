@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 
-const Home = ()=> import('../components/Home.vue')
-const Products = ()=>import('../components/Products.vue')
-const WishList = ()=>import('../components/WishList.vue')
 const Login = ()=>import('../components/Login.vue')
 const Register = ()=>import('../components/Register.vue')
+const Home = ()=> import('../components/Home.vue')
+const Products = ()=>import('../components/Products.vue')
+const Product = ()=>import('../components/ProductDetails.vue')
+
+
 
 
 const routes = [
@@ -29,16 +31,13 @@ const routes = [
         path : '/products',
         name : 'products',
         component : Products,
-        meta : {
-            isProtected : true
-        },
     },
     {
-        path : '/wishlist',
-        name : 'wishlist',
-        component : WishList,
+        path : '/products/:id',
+        name : 'productDetails',
+        component : Product,
     },
-
+    
 ]
 
 const router = createRouter({
