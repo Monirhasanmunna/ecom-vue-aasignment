@@ -2,7 +2,9 @@
 import { Icon } from '@iconify/vue';
 import {ref} from 'vue'
 import { userAuth } from '../../store/auth';
+import { cart } from '../../store/cart';
 const auth = userAuth();
+const cartStore = cart();
 
 const sideBarisActive = ref(true);
 
@@ -25,21 +27,16 @@ const sideBarisActive = ref(true);
                 <ul class="menu w-full space-y-2 mt-3">
                   <li><router-link to="/" :class="{actived: $route.name == 'home'}" class="py-2 text-lg"><Icon icon="mdi:home" width="28" /><span v-if="sideBarisActive">Home</span></router-link></li>
                   <li><router-link :class="{actived: $route.name == 'products'}" :to="{name:'products'}" class="py-2 text-lg"><Icon icon="mdi:alpha-p-box" width="28" /><span v-if="sideBarisActive">Products</span></router-link></li>
-                  <li><router-link :class="{actived: $route.name == 'register'}" :to="{name:'register'}" class="py-2 text-lg"><Icon icon="mdi:register" width="28" /><span v-if="sideBarisActive">Register</span></router-link></li>
-                  <li><router-link :class="{actived: $route.name == 'login'}" :to="{name:'login'}" class="py-2 text-lg"><Icon icon="mdi:login-variant" width="28" /><span v-if="sideBarisActive">Login</span></router-link></li>
-                  <!-- <li v-if="auth.authUser?.token"><router-link :class="{actived: $route.name == 'products'}" :to="{name:'products'}" class="py-2 text-lg"><Icon icon="mdi:alpha-p-box" width="28" /><span v-if="sideBarisActive">Products</span></router-link></li>
-                  <li v-else><router-link :class="{actived: $route.name == 'login'}" :to="{name:'login'}" class="py-2 text-lg"><Icon icon="mdi:login-variant" width="28" /><span v-if="sideBarisActive">Login</span></router-link></li>
-                  <li v-if="auth.authUser?.token"><router-link :class="{actived: $route.name == 'wishlist'}" :to="{name:'wishlist'}" class="py-2 text-lg"><Icon icon="mdi:login-variant" width="28" /><span v-if="sideBarisActive">Wishlist</span></router-link></li> -->
+                  <li v-if="!auth.token"><router-link :class="{actived: $route.name == 'register'}" :to="{name:'register'}" class="py-2 text-lg"><Icon icon="mdi:register" width="28" /><span v-if="sideBarisActive">Register</span></router-link></li>
+                  <li v-if="!auth.token"><router-link :class="{actived: $route.name == 'login'}" :to="{name:'login'}" class="py-2 text-lg"><Icon icon="mdi:login-variant" width="28" /><span v-if="sideBarisActive">Login</span></router-link></li>
+                  <li><router-link :class="{actived: $route.name == 'cart'}" :to="{name:'cart'}" class="py-2 text-lg"><Icon icon="mdi:cart-outline" width="28" />
+                    <span v-if="sideBarisActive">
+                      Cart
+                      <div class="badge bg-indigo-400 text-white border-none">{{ cartStore.totalCartItem }}</div>
+                    </span></router-link>
+                  </li>
+                  
 
-                  <!-- <li>
-                    <details>
-                      <summary class="py-3">Parent</summary>
-                      <ul>
-                        <li><a class="py-3">level 2 item 1</a></li>
-                        <li><a class="py-3">level 2 item 2</a></li>
-                      </ul>
-                    </details>
-                  </li> -->
               </ul>
             </div>
         </aside>
@@ -90,7 +87,7 @@ const sideBarisActive = ref(true);
  }
 
  .actived{
-  background-color: #b1b0b0;
+  background-color: #bdbcbc;
   
  }
 </style>

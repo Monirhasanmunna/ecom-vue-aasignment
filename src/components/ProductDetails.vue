@@ -1,9 +1,11 @@
 <script setup>
 import { products } from '../store/products';
+import { cart } from '../store/cart';
 import { onBeforeMount } from 'vue';
 import {useRoute} from 'vue-router'
 
 const store = products();
+const cartStore = cart();
 const route = useRoute();
 
 const id = `${route.params.id}`
@@ -11,6 +13,7 @@ onBeforeMount(()=>{
     store.isLoader = true;
     store.getProductDetails(id)
 });
+
 
 </script>
 
@@ -49,7 +52,7 @@ onBeforeMount(()=>{
                         <p>{{ store.productDetails.description }}</p>
                     </div>
                     <div class="flex items-end justify-end h-full ">
-                    <button class="btn btn-primary">Add to Cart</button>
+                    <button @click="cartStore.addToCart(store.productDetails)" class="btn btn-primary">Add to Cart</button>
                     </div>
                 </div>
             </div>

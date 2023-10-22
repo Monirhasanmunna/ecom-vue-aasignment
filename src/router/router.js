@@ -6,6 +6,7 @@ const Register = ()=>import('../components/Register.vue')
 const Home = ()=> import('../components/Home.vue')
 const Products = ()=>import('../components/Products.vue')
 const Product = ()=>import('../components/ProductDetails.vue')
+const Cart = ()=>import('../components/Cart.vue')
 
 
 
@@ -36,6 +37,11 @@ const routes = [
         path : '/products/:id',
         name : 'productDetails',
         component : Product,
+    },
+    {
+        path : '/cart',
+        name : 'cart',
+        component : Cart,
     },
     
 ]
