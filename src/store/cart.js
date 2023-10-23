@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import {ref,reactive, computed} from 'vue'
 import toastr from '../utilities/toastr'
+import { order } from './order';
 
 
 const cart = defineStore('cart',()=>{
@@ -44,6 +45,11 @@ const cart = defineStore('cart',()=>{
         toastr.success('Item remove successfully from cart')
     }
 
+    function sendToOrder(){
+        const orderStore = order();
+        orderStore.getOrderItem(cartItems.value, totalAmmount);
+    }
+
     function storeCartInLocalstorage(){
         localStorage.setItem('cart', JSON.stringify(cartItems.value));
     }
@@ -55,7 +61,7 @@ const cart = defineStore('cart',()=>{
 
     getCartFromLocalStorage();
 
-    return {cartItems, addToCart, totalAmmount, totalCartItem, removeCartItem}
+    return {cartItems, addToCart, totalAmmount, totalCartItem, removeCartItem, sendToOrder}
 });
 
 

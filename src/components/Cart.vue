@@ -2,14 +2,16 @@
     import {Icon} from '@iconify/vue';
     import {cart} from '../store/cart';
     import { userAuth } from '../store/auth';
+    import {order} from '../store/order'
     import toastr from '../utilities/toastr'
 
     const cartStore = cart();
     const authStore = userAuth();
 
+
     function CheckOut(){
         if(authStore.token){
-            toastr.success('CheckOut successfully')
+           cartStore.sendToOrder();
         }else{
             toastr.error('You have to login before Checkout')
         }
