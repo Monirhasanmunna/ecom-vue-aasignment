@@ -7,11 +7,13 @@
 
     const cartStore = cart();
     const authStore = userAuth();
+    const orderStore = order();
 
 
     function CheckOut(){
         if(authStore.token){
-           cartStore.sendToOrder();
+            orderStore.isLoading = true
+            cartStore.sendToOrder();
         }else{
             toastr.error('You have to login before Checkout')
         }
@@ -78,8 +80,8 @@
                             </tfoot>
                         </table>
 
-                        <div class="btn-wrapper">
-                            <button @click="CheckOut" class="btn btn-primary"><Icon icon="mdi:check-circle-outline" width="28" />CheckOut</button>
+                        <div class="btn-wrapper" v-if="Object.keys(cartStore.cartItems).length > 0">
+                            <button @click="CheckOut" class="btn btn-primary"><Icon v-if="!orderStore.isLoading" icon="mdi:check-circle-outline" width="28" /><span v-if="orderStore.isLoading" class="loading loading-spinner loading-md"></span>CheckOut</button>
                         </div>
                     </div>
                 </div>

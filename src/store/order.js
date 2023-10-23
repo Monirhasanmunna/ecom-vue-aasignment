@@ -2,10 +2,14 @@ import {defineStore} from 'pinia'
 import axios from 'axios'
 import {ref,reactive} from 'vue'
 import { userAuth } from './auth';
+import {cart} from './cart'
+import toastr from '../utilities/toastr.js'
 
 const order = defineStore('order',()=>{
 
-   async function getOrderItem(items, total){
+    const isLoading = ref(false);
+
+    async function OrderPlace(items, total){
 
         const product_id = Object.values(items).map(item => item.product.id);
         const quantity = Object.values(items).map(item => item.quantity);
@@ -30,11 +34,16 @@ const order = defineStore('order',()=>{
             }
         })
 
-        console.log(res);
+        
+        if(res.data.status == 200){
+            toastr.success('Order Place Successfully')
+            isLoading.value = false
+            localStorage.removeItem('cart');
+        }
     }
 
 
-    return {getOrderItem}
+    return {OrderPlace, isLoading}
 });
 
 

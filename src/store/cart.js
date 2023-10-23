@@ -47,7 +47,7 @@ const cart = defineStore('cart',()=>{
 
     function sendToOrder(){
         const orderStore = order();
-        orderStore.getOrderItem(cartItems.value, totalAmmount);
+        orderStore.OrderPlace(cartItems.value, totalAmmount);
     }
 
     function storeCartInLocalstorage(){
@@ -58,10 +58,12 @@ const cart = defineStore('cart',()=>{
         cartItems.value = JSON.parse(localStorage.getItem('cart'));
     }
 
+    if(localStorage.getItem('cart')){
+        getCartFromLocalStorage();
+    }
+    
 
-    getCartFromLocalStorage();
-
-    return {cartItems, addToCart, totalAmmount, totalCartItem, removeCartItem, sendToOrder}
+    return {cartItems, addToCart, totalAmmount, totalCartItem, removeCartItem, sendToOrder,getCartFromLocalStorage}
 });
 
 
