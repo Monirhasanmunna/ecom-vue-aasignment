@@ -35,6 +35,8 @@ const sideBarisActive = ref(true);
                       <div class="badge bg-indigo-400 text-white border-none">{{ cartStore.totalCartItem }}</div>
                     </span></router-link>
                   </li>
+                  <li><router-link :class="{actived: $route.name == 'orders'}" :to="{name:'orders'}" class="py-2 text-lg"><Icon icon="mdi:cart-outline" width="28" />Orders</router-link>
+                  </li>
                   
 
               </ul>

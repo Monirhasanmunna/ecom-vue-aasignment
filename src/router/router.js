@@ -7,6 +7,7 @@ const Home = ()=> import('../components/Home.vue')
 const Products = ()=>import('../components/Products.vue')
 const Product = ()=>import('../components/ProductDetails.vue')
 const Cart = ()=>import('../components/Cart.vue')
+const Orders = ()=>import('../components/OrderList.vue')
 
 
 
@@ -42,6 +43,11 @@ const routes = [
         path : '/cart',
         name : 'cart',
         component : Cart,
+    },
+    {
+        path : '/orders',
+        name : 'orders',
+        component : Orders,
     },
     
 ]

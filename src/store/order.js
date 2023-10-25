@@ -8,6 +8,9 @@ import toastr from '../utilities/toastr.js'
 const order = defineStore('order',()=>{
 
     const isLoading = ref(false);
+    const auth = userAuth();
+    const token = auth.token;
+    const getOrders = ref([]);
 
     async function OrderPlace(items, total){
 
@@ -24,8 +27,6 @@ const order = defineStore('order',()=>{
             total       : total.value
         }
 
-        const auth = userAuth();
-        const token = auth.token;
 
         let res = await axios.post(`http://localhost:8000/api/order`,payload,{
             headers :{
@@ -34,16 +35,34 @@ const order = defineStore('order',()=>{
             }
         })
 
-        
+        const cartStore = cart();
         if(res.data.status == 200){
             toastr.success('Order Place Successfully')
             isLoading.value = false
             localStorage.removeItem('cart');
+            cartStore.cartItems = {};
         }
     }
 
 
-    return {OrderPlace, isLoading}
+    const GetOrderList = async ()=>{
+        let res = await axios.get(`http://localhost:8000/api/order`,{
+            headers :{
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        });
+        
+        
+        if(res.data.status == 200){
+            getOrders.value = res.data.orders;
+            console.log(getOrders.value)
+        }
+        
+    }
+
+
+    return {OrderPlace, isLoading, GetOrderList, getOrders}
 });
 
 
