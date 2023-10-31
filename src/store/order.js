@@ -28,7 +28,7 @@ const order = defineStore('order',()=>{
         }
 
 
-        let res = await axios.post(`http://localhost:8000/api/order`,payload,{
+        let res = await axios.post(`https://ecomass.devmunna.xyz/api/order`,payload,{
             headers :{
                 'Content-Type' : 'application/json',
                 'Authorization' : `Bearer ${token}`
@@ -46,7 +46,7 @@ const order = defineStore('order',()=>{
 
 
     const GetOrderList = async ()=>{
-        let res = await axios.get(`http://localhost:8000/api/order`,{
+        let res = await axios.get(`https://ecomass.devmunna.xyz/api/order`,{
             headers :{
                 'Content-Type' : 'application/json',
                 'Authorization' : `Bearer ${token}`
@@ -56,7 +56,6 @@ const order = defineStore('order',()=>{
         
         if(res.data.status == 200){
             getOrders.value = res.data.orders;
-            console.log(getOrders.value)
         }
         
     }

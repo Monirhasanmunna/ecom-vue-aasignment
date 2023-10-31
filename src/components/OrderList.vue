@@ -1,63 +1,98 @@
 <script setup>
-import {order} from '../store/order'
-import { onBeforeMount } from 'vue';
-const orderStore = order();
+    import {
+        order
+    } from '../store/order'
+    import {
+        onBeforeMount
+    } from 'vue';
+    const orderStore = order();
 
-onBeforeMount(()=> orderStore.GetOrderList())
-
+    onBeforeMount(() => orderStore.GetOrderList())
 </script>
 
 <template>
-    <div class="bg-white h">
-        <div class="w-full  p-2">
-            <div class="flex justify-center items-center ">
-                <div class="bg-base-900 w-10/12 shadow-xl rounded-md shadow-indigo-100 p-5 space-y-3">
-                    <div class="title p-3 mb-6 border-b-2 border-indigo-400">
-                        <h1 class="text-xl text-indigo-500 font-semibold">Order List </h1>
-                    </div>
-
-                    <div class="space-y-8">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="w-20 text-sm">#</th>
-                                    <th class="w-99 text-sm">Title</th>
-                                    <th class="w-60 text-sm">Quantity</th>
-                                    <th class="w-36 text-sm">Price</th>
-                                    <th class="w-36 text-sm">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody v-if="Object.keys(cartStore.getOrders).length > 0">
-                                <tr class="hover" v-for="(item, index) in orderStore.getOrders" :key="index">
-                                    <th>{{ index }}</th>
-                                    <td>
-                                        
-                                    </td>
-                                    <td><input type="number" v-model="item.quantity" placeholder="Input Quantity"
-                                            class="input border-indigo-400 focus:border-none input-info w-full max-w-xs">
-                                    </td>
-                                    <td>{{ item.product.price }}</td>
-                                    <td>{{ item.quantity * item.product.price }}</td>
-                                    <td><Icon @click="cartStore.removeCartItem(index)" icon="jam:delete" class="text-red-500 transition duration-400 hover:scale-125" width="32" /></td>
-                                </tr>
-                            </tbody>
-
-                            <tbody v-else>
-                                <tr><td colspan="6" class="text-center text-sm font-semibold">No cart item found</td></tr>
-                            </tbody>
-
-                            <tfoot v-if="Object.keys(cartStore.cartItems).length > 0">
-                                <tr class="hover">
-                                    <td colspan="4" class="text-right text-lg font-semibold">Total =</td>
-                                    <td colspan="2" class="text-sm">{{ cartStore.totalAmmount }}</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-
-                        <div class="btn-wrapper" v-if="Object.keys(cartStore.cartItems).length > 0">
-                            <button @click="CheckOut" class="btn btn-primary"><Icon v-if="!orderStore.isLoading" icon="mdi:check-circle-outline" width="28" /><span v-if="orderStore.isLoading" class="loading loading-spinner loading-md"></span>CheckOut</button>
+    <!-- component -->
+    <div class="bg-white p-8 rounded-md w-full">
+        <div class=" flex items-center justify-between pb-6">
+            <div>
+                <h2 class="text-gray-600 font-semibold">Products Oder</h2>
+                <span class="text-xs">All products item</span>
+            </div>
+        </div>
+        <div>
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                    <table class="min-w-full leading-normal">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    #
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Products
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Created at
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Total
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in orderStore.getOrders" :key="index">
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                   {{ index+1 }}
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span v-for="(product, i) in item.products" :key="i" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mx-1">{{product.name}}</span>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        {{ new Date(item.created_at).getFullYear() +'-'+new Date(item.created_at).getMonth().toString().padStart(2,0)+'-'+new Date(item.created_at).getDate().toString().padStart(2,0) }}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                       {{ item.total }}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                                    <span
+                                        class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
+                                        <span aria-hidden
+                                            class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                        <span class="relative">Pending</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <div
+                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                        <span class="text-xs xs:text-sm text-gray-900">
+                            Showing 1 to 4 of 50 Entries
+                        </span>
+                        <div class="inline-flex mt-2 xs:mt-0">
+                            <button
+                                class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
+                                Prev
+                            </button>
+                            &nbsp; &nbsp;
+                            <button
+                                class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
+                                Next
+                            </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

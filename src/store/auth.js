@@ -12,7 +12,7 @@ const userAuth = defineStore('auth',()=>{
     const isLoading = ref(false);
 
     const Register = async (input) =>{
-        let res = await axios.post(`http://localhost:8000/api/register`,input)
+        let res = await axios.post(`https://ecomass.devmunna.xyz/api/register`,input)
 
         if(res.data.status == 200){
             isLoading.value = false
@@ -21,7 +21,7 @@ const userAuth = defineStore('auth',()=>{
     }
 
     const Login = async (cred)=>{
-        let res = await axios.post(`http://localhost:8000/api/login`,cred)
+        let res = await axios.post(`https://ecomass.devmunna.xyz/api/login`,cred)
 
         if(res.data.status == 200){
             localStorage.setItem('token',res.data.token)

@@ -9,13 +9,13 @@ const products = defineStore('products',()=>{
     const isLoader = ref(true)
 
     async function getProducts(){
-        let res = await axios.get(`http://localhost:8000/api/products`)
+        let res = await axios.get(`https://ecomass.devmunna.xyz/api/products`)
         products.value = res.data
         isLoader.value = false
     }
 
     async function getProductDetails(id){
-        let res = await axios.get(`http://localhost:8000/api/products/${id}`)
+        let res = await axios.get(`https://ecomass.devmunna.xyz/api/products/${id}`)
         productDetails.value = res.data
         console.log(res.data)
         isLoader.value = false
